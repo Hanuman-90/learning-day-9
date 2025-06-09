@@ -1,0 +1,68 @@
+// Interface demonstrating polymorphism with interfaces
+interface Displayable {
+    void display();
+}
+
+// Base class demonstrating method overloading and overriding
+class Calculator implements Displayable {
+    // Method Overloading: same method name, different parameters
+    int add(int a, int b) {
+        return a + b;
+    }
+
+    int add(int a, int b, int c) {
+        return a + b + c;
+    }
+
+    // Method to be overridden
+    void show() {
+        System.out.println("Calculator: Showing basic calculations");
+    }
+
+    // Implementing interface method
+    public void display() {
+        System.out.println("Calculator Display");
+    }
+}
+
+// Derived class overriding show() method
+class AdvancedCalculator extends Calculator {
+    @Override
+    void show() {
+        System.out.println("AdvancedCalculator: Showing advanced calculations");
+    }
+
+    // Overloaded method with different parameter type
+    double add(double a, double b) {
+        return a + b;
+    }
+
+    // Overriding interface method
+    @Override
+    public void display() {
+        System.out.println("AdvancedCalculator Display");
+    }
+}
+
+public class PolymorphismDemo {
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        AdvancedCalculator advCalc = new AdvancedCalculator();
+
+        // Method Overloading (compile-time polymorphism)
+        System.out.println("Add 2 ints: " + calc.add(10, 20));
+        System.out.println("Add 3 ints: " + calc.add(10, 20, 30));
+        System.out.println("Add 2 doubles: " + advCalc.add(5.5, 6.5));
+
+        // Method Overriding (runtime polymorphism)
+        calc.show();
+        advCalc.show();
+
+        // Polymorphism with Interface
+        Displayable disp1 = calc;      // Calculator instance
+        Displayable disp2 = advCalc;   // AdvancedCalculator instance
+
+        disp1.display();
+        disp2.display();
+    }
+}
