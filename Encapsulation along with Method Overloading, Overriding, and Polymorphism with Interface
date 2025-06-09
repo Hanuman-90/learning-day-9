@@ -1,0 +1,114 @@
+// Interface demonstrating polymorphism
+interface Displayable {
+    void display();
+}
+
+// Encapsulation: Class with private fields and public getter/setter
+class Account implements Displayable {
+    private String accountHolder;
+    private double balance;
+
+    // Constructor
+    public Account(String name, double balance) {
+        this.accountHolder = name;
+        this.balance = balance;
+    }
+
+    // Encapsulated getter and setter
+    public String getAccountHolder() {
+        return accountHolder;
+    }
+
+    public void setAccountHolder(String accountHolder) {
+        this.accountHolder = accountHolder;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        if (balance >= 0) {
+            this.balance = balance;
+        } else {
+            System.out.println("Balance cannot be negative.");
+        }
+    }
+
+    // Method Overloading: deposit money (one or two parameters)
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println(amount + " deposited. New balance: " + balance);
+        }
+    }
+
+    public void deposit(double amount, double bonus) {
+        if (amount > 0 && bonus >= 0) {
+            balance += (amount + bonus);
+            System.out.println(amount + " + bonus " + bonus + " deposited. New balance: " + balance);
+        }
+    }
+
+    // Method to override
+    public void showDetails() {
+        System.out.println("Account Holder: " + accountHolder);
+        System.out.println("Balance: " + balance);
+    }
+
+    // Interface method implementation
+    public void display() {
+        System.out.println("Displaying Account info...");
+        showDetails();
+    }
+}
+
+// Derived class overrides showDetails()
+class SavingsAccount extends Account {
+    private double interestRate;
+
+    public SavingsAccount(String name, double balance, double interestRate) {
+        super(name, balance);
+        this.interestRate = interestRate;
+    }
+
+    // Override showDetails()
+    @Override
+    public void showDetails() {
+        super.showDetails();
+        System.out.println("Interest Rate: " + interestRate + "%");
+    }
+
+    // Override interface method
+    @Override
+    public void display() {
+        System.out.println("Displaying Savings Account info...");
+        showDetails();
+    }
+}
+
+public class EncapsulationPolymorphismDemo {
+    public static void main(String[] args) {
+        Account acc = new Account("Alice", 1000);
+        SavingsAccount savAcc = new SavingsAccount("Bob", 2000, 5);
+
+        // Encapsulation: accessing fields via getters/setters
+        System.out.println("Account Holder: " + acc.getAccountHolder());
+        acc.setBalance(1200);
+
+        // Method Overloading
+        acc.deposit(300);
+        acc.deposit(200, 50);
+
+        // Method Overriding
+        acc.showDetails();
+        savAcc.showDetails();
+
+        // Polymorphism with Interface
+        Displayable d1 = acc;
+        Displayable d2 = savAcc;
+
+        d1.display();
+        d2.display();
+    }
+}
